@@ -1,0 +1,473 @@
+/* ═══════════════════════════════════════
+   ГЕРОЙ ЛЕТА — Стили
+   Концепция: тёмный космос · стекло · неоновое свечение
+   ═══════════════════════════════════════ */
+
+:root{
+  --gold:#FFD700;--gold-dark:#C9A100;--gold-light:#FFF1A8;
+  --purple:#6D28D9;--purple-light:#A855F7;--purple-dark:#2D1B69;
+  --teal:#10B981;--teal-light:#34D399;
+  --red:#EF4444;--red-light:#F87171;
+  --bg:#0B071E;--bg2:#150F30;--bg3:#1E1542;
+  --card:rgba(30,21,64,0.55);--card2:rgba(45,30,90,0.6);
+  --text:#F9FAFB;--text2:#C0B6E4;--text3:#7E72A8;
+  --border:rgba(168,85,247,0.22);
+  --success:#34D399;--danger:#F87171;--warn:#FFD700;
+  --rarity-common:#9CA3AF;--rarity-rare:#3B82F6;--rarity-epic:#A855F7;--rarity-legend:#F59E0B;
+  --glass-blur:18px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;overflow-x:hidden}
+body{display:flex;flex-direction:column;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(circle at 82% 12%,rgba(109,40,217,0.35) 0%,transparent 45%),
+  radial-gradient(circle at 12% 85%,rgba(16,40,90,0.4) 0%,transparent 55%),
+  radial-gradient(circle at 50% 50%,rgba(168,85,247,0.06) 0%,transparent 60%),
+  radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,0.6) 0%,transparent 100%),
+  radial-gradient(1px 1px at 30% 60%,rgba(255,255,255,0.4) 0%,transparent 100%),
+  radial-gradient(1px 1px at 50% 10%,rgba(255,255,255,0.5) 0%,transparent 100%),
+  radial-gradient(1px 1px at 70% 40%,rgba(255,255,255,0.3) 0%,transparent 100%),
+  radial-gradient(1px 1px at 85% 70%,rgba(255,255,255,0.6) 0%,transparent 100%),
+  radial-gradient(1px 1px at 20% 80%,rgba(255,255,255,0.4) 0%,transparent 100%),
+  radial-gradient(2px 2px at 45% 50%,rgba(255,255,255,0.2) 0%,transparent 100%),
+  radial-gradient(2px 2px at 15% 45%,rgba(200,180,255,0.3) 0%,transparent 100%);
+  pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 0 90px}
+
+/* HEADER — стекло с подсветкой */
+.hdr{
+  backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));
+  background:rgba(11,7,30,0.7);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  padding:10px 14px;display:flex;align-items:center;gap:10px;
+  position:sticky;top:0;z-index:100;
+}
+.hdr-avatar{
+  width:42px;height:42px;border-radius:50%;
+  border:2px solid var(--gold);background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;
+  cursor:pointer;transition:transform .2s;
+  box-shadow:0 0 14px rgba(255,215,0,0.35),inset 0 0 8px rgba(255,215,0,0.25);
+}
+.hdr-avatar:active{transform:scale(0.92)}
+.hdr-name{font-family:'Cinzel',serif;font-size:14px;color:var(--gold);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100px;text-shadow:0 0 10px rgba(255,215,0,0.3)}
+.hdr-rank{font-size:10px;color:var(--text2);margin-top:1px}
+.hdr-stats{margin-left:auto;display:flex;gap:8px}
+.hdr-stat{text-align:center}
+.hdr-stat-val{font-size:15px;font-weight:700;color:var(--gold);text-shadow:0 0 8px rgba(255,215,0,0.3)}
+.hdr-stat-lbl{font-size:9px;color:var(--text3)}
+
+/* ЖИВАЯ ШКАЛА XP — переливающаяся, сигнатурный элемент */
+.xp-strip{height:6px;background:rgba(0,0,0,0.5);overflow:hidden;border-radius:3px;margin:0 14px 8px;box-shadow:inset 0 1px 3px rgba(0,0,0,0.6)}
+.xp-strip-fill{
+  height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--purple-light),var(--purple),var(--gold),var(--teal));
+  background-size:300% 100%;
+  animation:xp-wave 5s linear infinite,xp-pulse 2.2s infinite alternate;
+  transition:width .6s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes xp-wave{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+@keyframes xp-pulse{0%{box-shadow:0 0 4px rgba(168,85,247,0.4)}100%{box-shadow:0 0 12px rgba(255,215,0,0.7)}}
+
+/* BOTTOM NAV — плавающее стекло */
+.bnav{
+  position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+  width:calc(100% - 24px);max-width:456px;
+  border-radius:22px;
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  background:rgba(15,10,36,0.72);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 14px 34px rgba(0,0,0,0.65);
+  padding:5px;display:flex;z-index:100;
+}
+.bnav-btn{flex:1;padding:8px 0 9px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;border:none;background:transparent;color:var(--text3);border-radius:16px;transition:color .2s,transform .1s}
+.bnav-btn.active{color:var(--gold);text-shadow:0 0 8px rgba(255,215,0,0.5)}
+.bnav-btn:active{transform:scale(0.92)}
+.bnav-btn svg{width:20px;height:20px}
+.bnav-label{font-size:9px;font-weight:700;font-family:'Nunito',sans-serif}
+
+/* PANELS */
+.panel{display:none;padding:10px 10px 0}
+.panel.active{display:block}
+
+/* LOCATION BANNER — стекло + свечение */
+.loc-banner{
+  background:linear-gradient(135deg,rgba(45,30,90,0.6),rgba(20,12,45,0.6));
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--border);border-radius:18px;
+  padding:12px 14px;margin-bottom:12px;position:relative;overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.loc-banner::before{content:'';position:absolute;right:-20px;top:-20px;width:110px;height:110px;background:radial-gradient(circle,rgba(255,215,0,0.18),transparent 70%);pointer-events:none}
+.loc-week{font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.loc-name{font-family:'Cinzel',serif;font-size:18px;color:var(--text);font-weight:700;margin-bottom:3px}
+.loc-desc{font-size:11px;color:var(--text2);line-height:1.5}
+.loc-icon{font-size:34px;position:absolute;right:14px;top:12px;opacity:.45;filter:drop-shadow(0 0 8px rgba(255,215,0,0.3))}
+
+/* SEC TITLE */
+.sec-title{font-family:'Cinzel',serif;font-size:11px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin:12px 0 7px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+
+/* QUEST CARDS — тактильные, стекло */
+.quest-list{display:flex;flex-direction:column;gap:8px}
+.quest-card{
+  background:var(--card);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--border);border-radius:16px;
+  padding:11px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;
+  transition:transform .15s cubic-bezier(0.175,0.885,0.32,1.275),border-color .2s,box-shadow .2s;
+  position:relative;overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.quest-card:active{transform:scale(0.96)}
+.quest-card.done{border-color:var(--teal);background:rgba(16,185,129,0.08);opacity:.65;cursor:default;pointer-events:none}
+.quest-card.pending{border-color:var(--warn);background:rgba(255,215,0,0.07);cursor:default}
+.quest-card.bonus{border-color:var(--gold-dark);border-width:1.5px;box-shadow:0 0 14px rgba(255,215,0,0.12),inset 0 1px 0 rgba(255,255,255,0.04)}
+.quest-card.bonus::before{content:'БОНУС';position:absolute;top:5px;right:8px;font-size:8px;color:var(--gold);font-weight:700;letter-spacing:1px}
+.quest-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.quest-name{font-size:13px;font-weight:700;color:var(--text)}
+.quest-desc{font-size:10px;color:var(--text2);margin-top:1px}
+.quest-gold{font-size:13px;font-weight:700;color:var(--gold);white-space:nowrap;text-shadow:0 0 6px rgba(255,215,0,0.25)}
+.quest-bonus-tag{font-size:9px;color:var(--teal-light);font-weight:700;margin-top:2px}
+
+/* Эффект вылетающих чисел при выполнении квеста */
+@keyframes floatUp{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-46px) scale(0.85);opacity:0}}
+.exp-pop{position:fixed;font-weight:800;font-family:'Cinzel',serif;animation:floatUp .9s ease-out forwards;pointer-events:none;z-index:1000;white-space:nowrap}
+.exp-pop.gold-pop{color:var(--gold);text-shadow:0 0 10px var(--gold)}
+.exp-pop.xp-pop{color:var(--purple-light);text-shadow:0 0 10px var(--purple-light)}
+
+/* BOSS */
+.boss-card{
+  background:linear-gradient(135deg,rgba(40,12,12,0.7),rgba(20,8,8,0.7));
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(239,68,68,0.4);border-radius:18px;
+  padding:12px 14px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start;
+  box-shadow:0 0 24px rgba(239,68,68,0.08);
+}
+.boss-portrait{font-size:40px;flex-shrink:0;animation:boss-shake 4s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(239,68,68,0.4))}
+@keyframes boss-shake{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.boss-name{font-family:'Cinzel',serif;font-size:14px;color:var(--red-light);font-weight:700;margin-bottom:2px}
+.boss-desc{font-size:10px;color:#E0A8A2;margin-bottom:7px;line-height:1.4}
+.boss-hp-bar{height:8px;background:rgba(0,0,0,0.45);border-radius:5px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,0.5)}
+.boss-hp-fill{height:100%;background:linear-gradient(90deg,var(--red-light),var(--red));border-radius:5px;transition:width .5s;box-shadow:0 0 10px rgba(239,68,68,0.5)}
+.boss-hp-lbl{font-size:9px;color:var(--red-light);margin-top:2px}
+
+/* HERO PROFILE — двухпанельный layout (desktop), одна колонка (mobile) */
+.hero-dashboard{display:flex;flex-direction:column;gap:16px;margin-bottom:12px}
+@media (min-width:760px){
+  .hero-dashboard{display:grid;grid-template-columns:280px 1fr;align-items:start}
+}
+
+.avatar-panel{
+  background:var(--card);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));
+  border:1px solid var(--border);border-radius:22px;
+  padding:22px 16px 16px;text-align:center;
+  box-shadow:0 16px 40px rgba(0,0,0,0.5);
+}
+@media (min-width:760px){.avatar-panel{position:sticky;top:74px}}
+
+.avatar-stage{position:relative;width:180px;height:210px;margin:0 auto 14px;animation:hero-float 4s ease-in-out infinite alternate}
+@keyframes hero-float{0%{transform:translateY(0)}100%{transform:translateY(-8px)}}
+
+.hero-mesh{position:relative;width:100%;height:100%}
+
+/* Манекен — базовые части (tier 1 по умолчанию: серый металл) */
+.m-helmet{
+  position:absolute;top:18px;left:50%;transform:translateX(-50%);
+  width:42px;height:48px;background:#5A5A6A;border-radius:16px;
+  border:2px solid rgba(255,255,255,0.1);transition:all .4s;z-index:5;
+}
+.m-visor{position:absolute;top:16px;left:4px;width:34px;height:8px;background:var(--rarity-rare);border-radius:8px;box-shadow:0 0 8px var(--rarity-rare);transition:all .4s}
+.m-cuirass{
+  position:absolute;top:74px;left:50%;transform:translateX(-50%);
+  width:64px;height:68px;background:#3F3F52;border-radius:12px 12px 18px 18px;
+  border:1px solid rgba(255,255,255,0.06);transition:all .4s;z-index:3;
+}
+.m-core{position:absolute;top:24px;left:22px;width:18px;height:18px;background:#fff;border-radius:50%;box-shadow:0 0 12px var(--purple-light);animation:core-pulse 1.6s infinite alternate;transition:all .4s}
+@keyframes core-pulse{0%{opacity:.55}100%{opacity:1}}
+.m-ring-glow{position:absolute;inset:-6px;border-radius:50%;border:2px solid transparent;transition:all .4s}
+.m-legs{position:absolute;top:148px;left:50%;transform:translateX(-50%);width:42px;display:flex;justify-content:space-between}
+.m-leg{width:15px;height:38px;background:#26263A;border-radius:4px;transition:all .4s}
+.m-pedestal{
+  position:absolute;bottom:-8px;left:50%;transform:translateX(-50%) rotateX(75deg);
+  width:130px;height:130px;border:2px solid var(--purple-light);border-radius:50%;
+  background:rgba(168,85,247,0.05);box-shadow:0 0 14px rgba(168,85,247,0.25);transition:all .5s;
+}
+.m-sword{
+  position:absolute;top:58px;right:10px;width:10px;height:76px;
+  background:linear-gradient(to top,#8B5A2B,#D7A15C);border-radius:4px;
+  transform:rotate(15deg);opacity:0;transition:all .3s;z-index:2;
+}
+.m-shield{
+  position:absolute;top:76px;left:8px;width:38px;height:46px;
+  background:#252847;border-radius:50% 50% 8px 8px;border:2px solid #52599C;
+  opacity:0;transform:scale(0.5);transition:all .3s;z-index:4;
+}
+
+/* Слот: оружие */
+.heroMesh.eq-weapon .m-sword,#heroMesh.eq-weapon .m-sword{opacity:1;transform:rotate(25deg) translateY(-4px);box-shadow:0 0 12px rgba(215,161,92,0.5)}
+#heroMesh.eq-cloak .m-shield{opacity:1;transform:scale(1);box-shadow:0 5px 14px rgba(0,0,0,0.5)}
+#heroMesh.eq-helmet .m-helmet{background:#7A5FBF;box-shadow:0 0 10px rgba(168,85,247,0.3)}
+#heroMesh.eq-helmet .m-visor{background:var(--gold);box-shadow:0 0 10px var(--gold)}
+#heroMesh.eq-armor .m-cuirass{background:linear-gradient(135deg,#3D2D6E,#5A4090);border-color:var(--purple-light)}
+#heroMesh.eq-boots .m-leg{background:#1A5A8B;border-bottom:4px solid var(--rarity-rare);box-shadow:0 3px 8px rgba(59,130,246,0.3)}
+#heroMesh.eq-ring .m-ring-glow{border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
+#heroMesh.eq-amulet .m-core{background:var(--gold);box-shadow:0 0 18px var(--gold),0 0 6px #fff}
+#heroMesh.eq-artifact .m-pedestal{border-color:var(--purple-light);background:rgba(168,85,247,0.18);box-shadow:0 0 24px var(--purple-light)}
+
+/* Прогрессия по тиру недели (1-8): цвет брони/ауры меняется независимо от предметов */
+#heroMesh.tier-1 .m-cuirass,#heroMesh.tier-1 .m-helmet{background:#5A5A6A}
+#heroMesh.tier-2 .m-cuirass,#heroMesh.tier-2 .m-helmet{background:#6E4F33}
+#heroMesh.tier-3 .m-cuirass,#heroMesh.tier-3 .m-helmet{background:#2C5A8C}
+#heroMesh.tier-4 .m-cuirass,#heroMesh.tier-4 .m-helmet{background:#5B3D8C}
+#heroMesh.tier-4 .m-pedestal{box-shadow:0 0 18px rgba(168,85,247,0.35)}
+#heroMesh.tier-5 .m-cuirass,#heroMesh.tier-5 .m-helmet{background:linear-gradient(135deg,#B8860B,#FFD700)}
+#heroMesh.tier-5 .m-pedestal{border-color:var(--gold);box-shadow:0 0 22px rgba(255,215,0,0.3)}
+#heroMesh.tier-6 .m-cuirass,#heroMesh.tier-6 .m-helmet{background:#7A1F2B}
+#heroMesh.tier-6 .m-pedestal{border-color:var(--red-light);box-shadow:0 0 26px rgba(239,68,68,0.3);animation:tier-aura-pulse 2.4s infinite alternate}
+#heroMesh.tier-7 .m-cuirass,#heroMesh.tier-7 .m-helmet{background:#15131F;border-color:var(--gold)!important}
+#heroMesh.tier-7 .m-pedestal{border-color:var(--gold);box-shadow:0 0 30px rgba(255,215,0,0.4)}
+#heroMesh.tier-8 .m-cuirass,#heroMesh.tier-8 .m-helmet{background:linear-gradient(135deg,#B8860B,#FFD700,#FFF1A8);background-size:200% 200%;animation:tier8-shimmer 3s linear infinite}
+#heroMesh.tier-8 .m-pedestal{border-color:var(--gold);box-shadow:0 0 36px rgba(255,215,0,0.55);animation:tier-aura-pulse 1.8s infinite alternate}
+@keyframes tier8-shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes tier-aura-pulse{0%{opacity:.7}100%{opacity:1}}
+
+.profile-title{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);margin:6px 0 2px;text-shadow:0 0 10px rgba(255,215,0,0.25)}
+.profile-meta{color:var(--text3);font-size:11px;margin-bottom:14px}
+
+.avatar-slots{display:flex;justify-content:center;gap:24px}
+.inv-col{display:flex;flex-direction:column;gap:8px}
+.slot-wrap{display:flex;flex-direction:column;align-items:center;gap:2px}
+.slot-lbl{font-size:8px;color:var(--text3);text-align:center;white-space:nowrap}
+.item-slot{
+  width:36px;height:36px;
+  background:rgba(15,10,36,0.6);border:1.5px solid var(--border);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;
+  transition:border-color .2s,box-shadow .2s,transform .1s;
+}
+.item-slot:active{transform:scale(0.9)}
+.item-slot:hover{border-color:var(--gold)}
+.item-slot.equipped{border-color:var(--gold);background:rgba(255,215,0,0.12);box-shadow:0 0 12px rgba(255,215,0,0.25)}
+.item-slot.empty::after{content:'＋';font-size:13px;color:var(--text3)}
+
+.inventory-panel{display:flex;flex-direction:column;gap:0}
+.profile-stats-card{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:14px;padding:10px 12px;margin-bottom:12px}
+.pstat-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border)}
+.pstat-row:last-child{border:none}
+.pstat-lbl{font-size:11px;color:var(--text2)}
+.pstat-val{font-size:13px;font-weight:700;color:var(--gold)}
+.pstat-bonus{font-size:10px;color:var(--teal-light);margin-left:4px}
+
+/* MARKET — система редкости (градиенты + неоновые ауры) */
+.market-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.market-item{
+  background:var(--card);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--border);border-radius:16px;
+  padding:10px;text-align:center;cursor:pointer;
+  transition:border-color .2s,transform .1s,box-shadow .2s;position:relative;
+}
+.market-item:active{transform:scale(0.95)}
+.market-item.owned{border-color:var(--teal);opacity:.6;cursor:default}
+.market-item.equipped-m{border-color:var(--gold)}
+.market-icon{font-size:28px;margin-bottom:5px}
+.market-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px}
+.market-effect{font-size:10px;color:var(--teal-light);margin-bottom:5px;line-height:1.3}
+.market-price{font-size:12px;font-weight:700;color:var(--gold)}
+.market-badge{position:absolute;top:5px;right:6px;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px}
+.badge-owned{background:rgba(16,185,129,0.3);color:var(--teal-light)}
+.badge-eq{background:rgba(255,215,0,0.2);color:var(--gold)}
+
+/* Редкость — рамка + неоновая аура, как в референсе */
+.rarity-common{border-color:var(--rarity-common)}
+.rarity-rare{border-color:var(--rarity-rare);box-shadow:inset 0 0 10px rgba(59,130,246,0.18),0 0 12px rgba(59,130,246,0.12)}
+.rarity-epic{border-color:var(--rarity-epic);box-shadow:inset 0 0 12px rgba(168,85,247,0.25),0 0 16px rgba(168,85,247,0.18)}
+.rarity-legend{
+  border-color:var(--rarity-legend);
+  box-shadow:inset 0 0 15px rgba(245,158,11,0.35),0 0 22px rgba(245,158,11,0.25);
+  background:radial-gradient(circle at center,rgba(245,158,11,0.1) 0%,rgba(30,21,64,0.55) 80%);
+}
+
+/* PENALTIES */
+.penalty-list{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.penalty-card{
+  background:linear-gradient(135deg,rgba(40,12,12,0.55),rgba(20,8,8,0.55));
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(239,68,68,0.3);border-radius:14px;
+  padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;
+  transition:border-color .2s,transform .1s;
+}
+.penalty-card:active{transform:scale(0.96)}
+.penalty-icon{font-size:22px;flex-shrink:0}
+.penalty-name{font-size:13px;font-weight:700;color:#F3B4AE}
+.penalty-desc{font-size:10px;color:#C98A84;margin-top:1px}
+.penalty-cost{font-size:13px;font-weight:700;color:var(--red-light);white-space:nowrap}
+.penalty-confirm{background:rgba(239,68,68,0.15);border:1px solid var(--red);border-radius:12px;padding:12px;margin-bottom:12px;display:none}
+.penalty-confirm.show{display:block}
+
+/* EXCHANGE / СИТИ */
+.exchange-card{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
+.ex-balance{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:10px 12px;background:var(--card2);border-radius:12px}
+.ex-gold-big{font-family:'Cinzel',serif;font-size:26px;color:var(--gold);font-weight:700;text-shadow:0 0 10px rgba(255,215,0,0.3)}
+.ex-gold-lbl{font-size:10px;color:var(--text3)}
+.ex-time-val{font-size:17px;font-weight:700;color:var(--teal-light)}
+.ex-opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+.ex-opt{background:rgba(21,15,48,0.6);border:1.5px solid var(--border);border-radius:11px;padding:9px;text-align:center;cursor:pointer;transition:border-color .15s,transform .1s}
+.ex-opt:active{transform:scale(0.95)}
+.ex-opt.selected{border-color:var(--gold);background:rgba(255,215,0,0.1);box-shadow:0 0 12px rgba(255,215,0,0.15)}
+.ex-opt-time{font-size:15px;font-weight:700;color:var(--text)}
+.ex-opt-cost{font-size:11px;color:var(--gold);margin-top:1px}
+.ex-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:#1A0A00;font-family:'Cinzel',serif;font-size:14px;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:opacity .2s,transform .1s;box-shadow:0 4px 18px rgba(255,215,0,0.25)}
+.ex-btn:active{transform:scale(0.97)}
+.ex-btn:disabled{opacity:.35;cursor:default;box-shadow:none}
+
+/* CITY: LOCKED STATE */
+.city-locked{background:var(--card);backdrop-filter:blur(8px);border:1px dashed var(--border);border-radius:18px;padding:18px 14px;margin-bottom:10px;text-align:center}
+.city-locked-icon{font-size:30px;margin-bottom:8px;opacity:.6}
+.city-locked-text{font-size:12px;color:var(--text3);line-height:1.5}
+
+/* CITY: SELL INVENTORY */
+.sell-item{background:var(--card);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:14px;padding:10px;text-align:center;position:relative}
+.sell-item.equipped-warn{opacity:.5}
+.sell-price{font-size:11px;font-weight:700;color:var(--teal-light);margin-top:4px}
+.sell-btn-mini{margin-top:6px;width:100%;padding:6px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:10px;font-weight:700;cursor:pointer}
+.sell-btn-mini:disabled{opacity:.35;cursor:default}
+
+/* CITY: BANK */
+.bank-card{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
+.bank-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:10px 12px;background:var(--card2);border-radius:12px}
+.bank-row-lbl{font-size:10px;color:var(--text3)}
+.bank-row-val{font-family:'Cinzel',serif;font-size:18px;font-weight:700}
+.bank-row-val.deposit{color:var(--teal-light);text-shadow:0 0 8px rgba(52,211,153,0.3)}
+.bank-row-val.debt{color:var(--red-light);text-shadow:0 0 8px rgba(248,113,113,0.3)}
+.bank-input-row{display:flex;gap:7px;margin-bottom:8px}
+.bank-input{flex:1;background:rgba(21,15,48,0.6);border:1.5px solid var(--border);border-radius:11px;padding:9px;color:var(--text);font-size:14px;text-align:center}
+.bank-action-btn{padding:9px 16px;border:none;border-radius:11px;font-family:'Cinzel',serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:transform .1s}
+.bank-action-btn:active{transform:scale(0.95)}
+.bank-action-btn.deposit-btn{background:linear-gradient(135deg,var(--teal),var(--teal-light));color:#06281F}
+.bank-action-btn.credit-btn{background:linear-gradient(135deg,var(--red),var(--red-light));color:#2A0A06}
+.bank-action-btn:disabled{opacity:.35;cursor:default}
+.bank-note{font-size:10px;color:var(--text3);line-height:1.5;margin-top:4px}
+.bank-autopay{font-size:10px;color:var(--gold);background:rgba(255,215,0,0.08);border:1px solid var(--border);border-radius:10px;padding:7px 9px;margin-top:8px;line-height:1.4}
+
+/* ACHIEVEMENTS */
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}
+.ach-card{background:var(--card);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:13px;padding:9px 5px;text-align:center;transition:box-shadow .2s}
+.ach-card.unlocked{border-color:var(--gold);box-shadow:0 0 12px rgba(255,215,0,0.15)}
+.ach-card.locked{opacity:.4}
+.ach-icon{font-size:22px;margin-bottom:4px}
+.ach-name{font-size:9px;font-weight:700;color:var(--text2);line-height:1.3}
+.ach-done{font-size:8px;color:var(--gold);margin-top:2px}
+
+/* PARENT */
+.parent-card{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
+.parent-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:10px;letter-spacing:.5px}
+.pq-item{display:flex;align-items:center;gap:7px;padding:9px 10px;background:rgba(21,15,48,0.6);border-radius:11px;margin-bottom:7px}
+.pq-name{flex:1;font-size:12px;color:var(--text);font-weight:600}
+.pq-gold{font-size:11px;color:var(--gold);font-weight:700;white-space:nowrap}
+.pq-approve{padding:5px 10px;font-size:11px;font-weight:700;border-radius:8px;border:none;background:var(--teal);color:white;cursor:pointer}
+.pq-reject{padding:5px 9px;font-size:11px;font-weight:700;border-radius:8px;border:none;background:var(--red);color:white;cursor:pointer;margin-left:3px}
+.setting-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)}
+.setting-row:last-child{border:none}
+.setting-lbl{font-size:12px;color:var(--text2);flex:1}
+input[type=text]{background:rgba(21,15,48,0.6);border:1px solid var(--border);border-radius:9px;padding:6px 9px;font-size:12px;color:var(--text);font-family:'Nunito',sans-serif;flex:1;outline:none;min-width:0}
+input[type=text]:focus{border-color:var(--purple-light)}
+.btn-sm{padding:6px 12px;font-size:11px;font-weight:700;border-radius:9px;border:1px solid var(--border);background:rgba(21,15,48,0.6);color:var(--text);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:transform .1s}
+.btn-sm:active{transform:scale(0.95)}
+.btn-danger{border-color:var(--red);background:rgba(239,68,68,0.15);color:var(--red-light)}
+.btn-purple{border-color:var(--purple-light);background:rgba(168,85,247,0.15);color:var(--purple-light)}
+.btn-gold{border-color:var(--gold);background:rgba(255,215,0,0.1);color:var(--gold)}
+
+/* MAP */
+.map-container{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:12px}
+.map-svg{width:100%;display:block}
+.map-info{padding:10px 12px;border-top:1px solid var(--border)}
+.map-info-name{font-family:'Cinzel',serif;font-size:14px;color:var(--gold);font-weight:600}
+.map-info-desc{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.4}
+.map-info-boss{font-size:10px;color:var(--red-light);margin-top:5px;font-weight:700}
+
+/* LOG */
+.log-item{padding:7px 10px;background:var(--card);backdrop-filter:blur(6px);border-radius:10px;margin-bottom:5px;font-size:11px;color:var(--text2);display:flex;gap:7px}
+.log-time{color:var(--text3);flex-shrink:0;font-size:10px;margin-top:1px}
+
+/* TOAST */
+.toast{
+  position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-10px);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:rgba(45,27,105,0.78);border:1px solid var(--gold);color:var(--gold);
+  font-size:12px;font-weight:700;padding:9px 18px;border-radius:28px;display:none;
+  white-space:nowrap;z-index:999;font-family:'Cinzel',serif;
+  box-shadow:0 4px 26px rgba(255,215,0,0.3);letter-spacing:.5px;
+}
+.toast.show{display:block;animation:toast-in .3s ease}
+@keyframes toast-in{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+.coin-fly{position:fixed;font-size:18px;pointer-events:none;z-index:998;animation:coin-up .9s ease forwards}
+@keyframes coin-up{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-70px) scale(1.4)}}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(5,3,15,.82);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:14px}
+.modal-overlay.open{display:flex}
+.modal{
+  background:rgba(21,15,48,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--border);border-radius:22px;padding:18px;width:100%;max-width:340px;position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.modal-close{position:absolute;top:10px;right:14px;font-size:20px;color:var(--text3);cursor:pointer;background:none;border:none}
+.modal-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);margin-bottom:4px;text-align:center}
+
+/* CONFESS */
+.confess-card{
+  background:linear-gradient(135deg,rgba(26,13,32,0.6),rgba(18,8,24,0.6));
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(168,85,247,0.3);border-radius:14px;
+  padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:7px;
+  transition:border-color .2s,transform .1s;
+}
+.confess-card:active{transform:scale(0.96)}
+.confess-name{font-size:13px;font-weight:700;color:#D8B4F8}
+.confess-desc{font-size:10px;color:#A084C8;margin-top:1px}
+.confess-cost{text-align:right}
+.confess-full{font-size:11px;color:#B090C8;text-decoration:line-through}
+.confess-disc{font-size:13px;font-weight:700;color:var(--teal-light)}
+
+/* SYNC */
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);display:inline-block;margin-right:4px;animation:pulse 2s infinite;box-shadow:0 0 6px rgba(52,211,153,0.6)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* MARKET ITEM-CARD (стиль инвентаря из примера) */
+.item-card{
+  background:var(--card);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);
+  border:1px solid var(--border);border-radius:16px;
+  padding:13px 16px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  transition:transform .2s cubic-bezier(0.4,0,0.2,1),border-color .2s,box-shadow .2s;
+  position:relative;overflow:hidden;margin-bottom:8px;
+}
+.item-card:active{transform:scale(0.97)}
+.item-card:hover{border-color:rgba(168,85,247,0.5);box-shadow:0 10px 30px rgba(168,85,247,0.12)}
+.item-card.rarity-rare{border-color:rgba(59,130,246,0.4)}
+.item-card.rarity-epic{border-color:rgba(168,85,247,0.45);box-shadow:0 0 16px rgba(168,85,247,0.1)}
+.item-card.rarity-legend{border-color:rgba(245,158,11,0.5);box-shadow:0 0 20px rgba(245,158,11,0.12)}
+.rarity-indicator{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px}
+.rarity-indicator.common{background:var(--rarity-common)}
+.rarity-indicator.rare{background:var(--rarity-rare)}
+.rarity-indicator.epic{background:var(--rarity-epic)}
+.rarity-indicator.legend{background:var(--rarity-legend)}
+.item-main{display:flex;align-items:center;gap:14px}
+.item-icon-frame{width:48px;height:48px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:inset 0 2px 6px rgba(0,0,0,0.3);flex-shrink:0}
+.item-card-name{font-weight:700;font-size:13px;color:var(--text);margin-bottom:3px}
+.item-card-stat{font-size:11px;color:var(--teal-light);font-weight:500}
+.item-action-zone{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.price-tag{font-size:12px;color:var(--gold);font-weight:700;display:flex;align-items:center;gap:3px}
+.btn-shop{border:none;color:#fff;padding:7px 14px;font-size:11px;font-weight:700;border-radius:9px;cursor:pointer;transition:transform .15s,box-shadow .15s;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.btn-shop:active{transform:scale(0.92)}
+.btn-shop.buy{background:linear-gradient(135deg,#651fff,#8e24aa);box-shadow:0 3px 12px rgba(101,31,255,0.3)}
+.btn-shop.equipped{background:linear-gradient(135deg,#00c853,#00b0ff);box-shadow:0 3px 12px rgba(0,200,83,0.3)}
+.btn-shop.owned{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:var(--text2);box-shadow:none}
+.btn-shop:disabled{opacity:.4;cursor:default}
+
+/* SYNC */
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);display:inline-block;margin-right:4px;animation:pulse 2s infinite;box-shadow:0 0 6px rgba(52,211,153,0.6)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}

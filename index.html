@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Герой Лета ⚔️</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+<style>
+  .coin { display:inline-block; font-style:normal; }
+  /* Пароль-оверлей */
+  #parentLock {
+    position:fixed; inset:0; background:rgba(10,6,20,0.97);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    z-index:9000; gap:14px;
+  }
+  #parentLock.hidden { display:none; }
+  #parentLock .lock-title { font-family:Cinzel,serif; font-size:18px; color:var(--gold); }
+  #parentLock .lock-sub { font-size:12px; color:var(--text2); }
+  #parentLock input[type=password] {
+    font-size:22px; letter-spacing:6px; text-align:center;
+    background:var(--bg2); border:1px solid var(--border); color:var(--text);
+    border-radius:10px; padding:10px 18px; width:180px;
+  }
+  #parentLock .lock-err { font-size:12px; color:var(--red-light); min-height:16px; }
+  #parentLock .btn-unlock {
+    background:var(--gold); color:#1A0D1A; font-weight:700;
+    border:none; border-radius:10px; padding:10px 28px; font-size:15px; cursor:pointer;
+  }
+  /* Модалка замены задания */
+  #replaceModal { display:none; }
+  #replaceModal.open { display:flex; }
+  .replace-item {
+    display:flex; align-items:center; gap:10px; padding:10px;
+    background:var(--bg2); border-radius:9px; margin-bottom:7px;
+    cursor:pointer; border:1px solid var(--border);
+  }
+  .replace-item:hover { border-color:var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ПАРОЛЬ-ОВЕРЛЕЙ ДЛЯ РОДИТЕЛЯ -->
+<div id="parentLock" class="hidden">
+  <div style="font-size:48px">🔒</div>
+  <div class="lock-title">Панель родителя</div>
+  <div class="lock-sub">Введите пароль для доступа</div>
+  <input type="password" id="lockInput" placeholder="••••" maxlength="20" onkeydown="if(event.key==='Enter')tryUnlock()"/>
+  <div class="lock-err" id="lockErr"></div>
+  <button class="btn-unlock" onclick="tryUnlock()">Войти</button>
+  <button style="background:none;border:none;color:var(--text2);font-size:13px;cursor:pointer;margin-top:4px" onclick="closeLock()">Отмена</button>
+</div>
+
+<!-- HERO MODAL -->
+<div class="modal-overlay" id="heroModal" onclick="if(event.target===this)closeHeroModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeHeroModal()">✕</button>
+    <div id="modalAvatar" style="text-align:center;font-size:60px;margin:8px 0"></div>
+    <div class="modal-title" id="modalName">Герой</div>
+    <div style="text-align:center;font-size:12px;color:var(--text2);margin-bottom:14px" id="modalRank">Новичок</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px">
+      <div style="background:var(--card);border-radius:9px;padding:9px 0;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--gold)" id="mGold">0</div><div style="font-size:9px;color:var(--text3)">золото</div></div>
+      <div style="background:var(--card);border-radius:9px;padding:9px 0;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--purple-light)" id="mLevel">1</div><div style="font-size:9px;color:var(--text3)">уровень</div></div>
+      <div style="background:var(--card);border-radius:9px;padding:9px 0;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--red-light)" id="mStreak">0</div><div style="font-size:9px;color:var(--text3)">серия</div></div>
+    </div>
+    <div style="font-size:11px;color:var(--text2);text-align:center;padding:8px;background:var(--card);border-radius:9px" id="mBonuses"></div>
+  </div>
+</div>
+
+<!-- ITEM MODAL -->
+<div class="modal-overlay" id="itemModal" onclick="if(event.target===this)closeItemModal()">
+  <div class="modal" id="itemModalContent"><button class="modal-close" onclick="closeItemModal()">✕</button></div>
+</div>
+
+<!-- МОДАЛКА ЗАМЕНЫ ЗАДАНИЯ -->
+<div class="modal-overlay" id="replaceModal" onclick="if(event.target===this)closeReplaceModal()">
+  <div class="modal" id="replaceModalContent">
+    <button class="modal-close" onclick="closeReplaceModal()">✕</button>
+    <div class="modal-title" id="replaceModalTitle" style="margin-bottom:12px">Заменить задание</div>
+    <div id="replaceModalList"></div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-avatar" id="hdrAvatar" onclick="openHeroModal()">⚔️</div>
+  <div style="min-width:0"><div class="hdr-name" id="hdrName">Герой</div><div class="hdr-rank"><span class="sync-dot" id="syncDot"></span><span id="hdrRank">Новичок</span></div></div>
+  <div class="hdr-stats">
+    <div class="hdr-stat"><div class="hdr-stat-val" id="hdrGold">0</div><div class="hdr-stat-lbl">🪙</div></div>
+    <div class="hdr-stat"><div class="hdr-stat-val" id="hdrStreak">0</div><div class="hdr-stat-lbl">🔥</div></div>
+    <div class="hdr-stat"><div class="hdr-stat-val" id="hdrLevel">1</div><div class="hdr-stat-lbl">⭐</div></div>
+  </div>
+</div>
+<div class="xp-strip"><div class="xp-strip-fill" id="xpFill" style="width:0%"></div></div>
+
+<!-- КВЕСТЫ -->
+<div id="panel-quests" class="panel active">
+  <div style="height:10px"></div>
+  <div class="loc-banner"><div class="loc-week" id="locWeek">НЕДЕЛЯ 1</div><div class="loc-name" id="locName">Зачарованный лес</div><div class="loc-desc" id="locDesc">Тёмные деревья скрывают тайны.</div><div class="loc-icon" id="locIcon">🌲</div></div>
+  <div class="sec-title">Ежедневные квесты</div>
+  <div class="quest-list" id="dailyList"></div>
+  <div class="sec-title">Бонус недели</div>
+  <div class="quest-list" id="weeklyList"></div>
+  <div class="sec-title">Босс недели</div>
+  <div id="bossCard"></div>
+</div>
+
+<!-- ГЕРОЙ -->
+<div id="panel-profile" class="panel">
+  <div style="height:10px"></div>
+  <div class="hero-dashboard">
+
+    <!-- ЛЕВАЯ ПАНЕЛЬ: МАНЕКЕН -->
+    <div class="avatar-panel">
+      <div class="avatar-stage" id="avatarStage">
+        <div class="hero-mesh" id="heroMesh">
+          <div class="m-helmet"><div class="m-visor"></div></div>
+          <div class="m-cuirass"><div class="m-core"><div class="m-ring-glow"></div></div></div>
+          <div class="m-legs"><div class="m-leg"></div><div class="m-leg"></div></div>
+          <div class="m-sword"></div>
+          <div class="m-shield"></div>
+        </div>
+        <div class="m-pedestal"></div>
+      </div>
+      <div class="profile-title" id="invHeroName">Герой</div>
+      <div class="profile-meta" id="invHeroRank">Новичок</div>
+
+      <div class="avatar-slots">
+        <div class="inv-col" id="leftSlots"></div>
+        <div class="inv-col" id="rightSlots"></div>
+      </div>
+    </div>
+
+    <!-- ПРАВАЯ ПАНЕЛЬ: СТАТЫ + РЫНОК -->
+    <div class="inventory-panel">
+      <div class="profile-stats-card">
+        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold);margin-bottom:8px">Бонусы снаряжения</div>
+        <div class="pstat-row"><span class="pstat-lbl">Золото за квест</span><span class="pstat-val" id="bGold">x1.0</span></div>
+        <div class="pstat-row"><span class="pstat-lbl">Опыт за квест</span><span class="pstat-val" id="bXP">x1.0</span></div>
+        <div class="pstat-row"><span class="pstat-lbl">Время планшета</span><span class="pstat-val" id="bTime">x1.0</span></div>
+        <div class="pstat-row"><span class="pstat-lbl">Защита от штрафов</span><span class="pstat-val" id="bProt">0%</span></div>
+      </div>
+      <div class="sec-title">Рынок предметов</div>
+      <div id="marketGrid"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ОБМЕН -->
+<div id="panel-exchange" class="panel">
+  <div style="height:10px"></div>
+  <div class="exchange-card">
+    <div class="ex-balance"><div><div class="ex-gold-big" id="exGold">0</div><div class="ex-gold-lbl">монет золота</div></div><div style="text-align:right"><div class="ex-time-val" id="exTime" style="font-size:13px">0 мин видео / 0 мин игр</div><div style="font-size:9px;color:var(--text3)">сегодня</div></div></div>
+    <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:6px">🎬 Видео</div>
+    <div class="ex-opts">
+      <div class="ex-opt selected" onclick="selectEx(this,5,10,'video')"><div class="ex-opt-time">10 мин</div><div class="ex-opt-cost">5 монет</div></div>
+      <div class="ex-opt" onclick="selectEx(this,10,20,'video')"><div class="ex-opt-time">20 мин</div><div class="ex-opt-cost">10 монет</div></div>
+    </div>
+    <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin:9px 0 6px">🎮 Игры</div>
+    <div class="ex-opts">
+      <div class="ex-opt" onclick="selectEx(this,10,10,'games')"><div class="ex-opt-time">10 мин</div><div class="ex-opt-cost">10 монет</div></div>
+      <div class="ex-opt" onclick="selectEx(this,20,20,'games')"><div class="ex-opt-time">20 мин</div><div class="ex-opt-cost">20 монет</div></div>
+    </div>
+    <button class="ex-btn" id="exBtn" onclick="doExchange()">Обменять золото</button>
+  </div>
+
+  <div id="cityLockedBlock" class="city-locked" style="display:none">
+    <div class="city-locked-icon">🔒</div>
+    <div class="city-locked-text">Продажа предметов и банк откроются после победы над боссом первой недели</div>
+  </div>
+
+  <div id="cityUnlockedBlock" style="display:none">
+    <div class="sec-title">Продать снаряжение</div>
+    <div class="market-grid" id="sellGrid"></div>
+
+    <div class="sec-title">🏦 Банк</div>
+    <div class="bank-card">
+      <div class="bank-row">
+        <div><div class="bank-row-lbl">На депозите</div><div class="bank-row-val deposit" id="bankDepositVal">0 🪙</div></div>
+        <div style="text-align:right"><div class="bank-row-lbl">Долг</div><div class="bank-row-val debt" id="bankDebtVal">0 🪙</div></div>
+      </div>
+      <div class="bank-input-row">
+        <input type="number" class="bank-input" id="bankDepositInput" placeholder="Сумма" min="1"/>
+        <button class="bank-action-btn deposit-btn" onclick="bankDeposit()">Положить</button>
+      </div>
+      <div class="bank-input-row">
+        <input type="number" class="bank-input" id="bankWithdrawInput" placeholder="Сумма" min="1"/>
+        <button class="bank-action-btn deposit-btn" onclick="bankWithdraw()">Снять</button>
+      </div>
+      <div class="bank-input-row">
+        <input type="number" class="bank-input" id="bankCreditInput" placeholder="Сумма" min="1"/>
+        <button class="bank-action-btn credit-btn" onclick="bankTakeCredit()">Взять в долг</button>
+      </div>
+      <div class="bank-note" id="bankRateNote">Депозит: +1 🪙/день за каждые 100 🪙. Кредит: ставка 0,5%/день, лимит 100 🪙.</div>
+      <div class="bank-autopay" id="bankAutopayNote" style="display:none">⚠️ Долг достиг лимита! Всё золото за квесты теперь автоматически идёт на погашение, пока долг не закроется.</div>
+    </div>
+  </div>
+
+  <div class="sec-title">Достижения</div>
+  <div class="ach-grid" id="achGrid"></div>
+</div>
+
+<!-- ПРИЗНАНИЕ -->
+<div id="panel-confess" class="panel">
+  <div style="height:10px"></div>
+  <div style="background:linear-gradient(135deg,#1A0D2A,#120A1E);border:1px solid #4A2D6E;border-radius:14px;padding:14px;margin-bottom:10px;text-align:center">
+    <div style="font-size:36px;margin-bottom:8px">🤝</div>
+    <div style="font-family:Cinzel,serif;font-size:15px;color:#C8A0E8;margin-bottom:6px">Честное признание</div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.5">Скидка <span style="color:var(--teal-light);font-weight:700">-30%</span> за честность!</div>
+  </div>
+  <div class="sec-title">Признаться самому</div>
+  <div id="confessListEl"></div>
+</div>
+
+<!-- РОДИТЕЛЬ -->
+<div id="panel-parent" class="panel">
+  <div style="height:10px"></div>
+  <div class="parent-card"><div class="parent-title">⚔️ Подтверждение квестов</div><div id="parentQueue"><div style="font-size:12px;color:var(--text3);padding:6px 0">Нет ожидающих ✅</div></div></div>
+  <div class="parent-card"><div class="parent-title">⚡ Штрафы</div><div class="penalty-list" id="penaltyList"></div></div>
+
+  <!-- Снаряжение героя -->
+  <div class="parent-card">
+    <div class="parent-title">🗡️ Снаряжение героя</div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:8px">Нажми на предмет чтобы снять с героя</div>
+    <div id="parentEquipList"></div>
+  </div>
+
+  <!-- Просмотр расписания -->
+  <div class="parent-card">
+    <div class="parent-title">📅 Расписание по дням</div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:10px">Проверяй выполнение за любой день</div>
+    <div id="scheduleViewer"></div>
+  </div>
+
+  <!-- Замена заданий -->
+  <div class="parent-card">
+    <div class="parent-title">📋 Замена заданий</div>
+    <div class="setting-row">
+      <div class="setting-lbl">Ежедневное задание</div>
+      <button class="btn-sm btn-purple" onclick="openReplaceModal('daily')">Заменить</button>
+    </div>
+    <div class="setting-row">
+      <div class="setting-lbl">Бонус недели</div>
+      <button class="btn-sm btn-purple" onclick="openReplaceModal('weekly')">Заменить</button>
+    </div>
+  </div>
+
+  <!-- Откат -->
+  <div class="parent-card">
+    <div class="parent-title">⏪ Откат</div>
+    <div class="setting-row">
+      <div class="setting-lbl">Откатить день назад</div>
+      <button class="btn-sm btn-danger" onclick="rollbackDay()">⏪ День</button>
+    </div>
+    <div class="setting-row">
+      <div class="setting-lbl">Откатить неделю назад</div>
+      <button class="btn-sm btn-danger" onclick="rollbackWeek()">⏪ Неделя</button>
+    </div>
+  </div>
+
+  <div class="parent-card"><div class="parent-title">⚙️ Настройки</div>
+    <div class="setting-row"><div class="setting-lbl">Имя героя</div><input type="text" id="nameInput" value="Артём" style="max-width:120px"/><button class="btn-sm" onclick="saveName()">💾</button></div>
+    <div class="setting-row"><div class="setting-lbl">Новый день</div><button class="btn-sm btn-danger" onclick="newDay()">🌅 Новый день</button></div>
+    <div class="setting-row"><div class="setting-lbl">Следующая неделя</div><button class="btn-sm btn-purple" onclick="nextLocation()">→ Открыть</button></div>
+    <div class="setting-row"><div class="setting-lbl">Бонус</div><button class="btn-sm btn-gold" onclick="addBonusGold()">+20 золота</button></div>
+    <div class="setting-row"><div class="setting-lbl">Сменить пароль</div><button class="btn-sm" onclick="changePassword()">🔑 Пароль</button></div>
+    <div class="setting-row"><div class="setting-lbl">Выйти из панели</div><button class="btn-sm btn-danger" onclick="lockParent()">🔒 Заблокировать</button></div>
+  </div>
+</div>
+
+<!-- ДОСТИЖЕНИЯ (История) -->
+<div id="panel-history" class="panel">
+  <div style="height:10px"></div>
+  <div style="background:linear-gradient(135deg,#1A0D2A,#120A1E);border:1px solid #4A2D6E;border-radius:14px;padding:14px;margin-bottom:14px;text-align:center">
+    <div style="font-size:36px;margin-bottom:6px">📅</div>
+    <div style="font-family:Cinzel,serif;font-size:15px;color:var(--gold);margin-bottom:4px">История квестов</div>
+    <div style="font-size:11px;color:var(--text2)">Все выполненные задания по дням</div>
+  </div>
+  <div id="historyList"></div>
+</div>
+
+<!-- ЛОГ -->
+<div id="panel-log" class="panel">
+  <div style="height:10px"></div>
+  <div id="logList"><div style="font-size:12px;color:var(--text3);padding:6px">Пусто...</div></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav">
+  <button class="bnav-btn active" id="btn-quests" onclick="switchTab('quests')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="bnav-label">Квесты</span></button>
+  <button class="bnav-btn" id="btn-profile" onclick="switchTab('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="bnav-label">Герой</span></button>
+  <button class="bnav-btn" id="btn-exchange" onclick="switchTab('exchange')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="bnav-label">Сити</span></button>
+  <button class="bnav-btn" id="btn-history" onclick="switchTab('history')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg><span class="bnav-label">Достижения</span></button>
+  <button class="bnav-btn" id="btn-parent" onclick="requestParentTab()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="bnav-label">Родитель</span></button>
+</div>
+
+<!-- СКРИПТЫ -->
+<script src="data.js?v=2"></script>
+<script src="app.js?v=2"></script>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyDGQFWHF_PfktRS68SjggHe_Os7uzxIKDA",
+  authDomain: "lmap-6e088.firebaseapp.com",
+  databaseURL: "https://lmap-6e088-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "lmap-6e088",
+  storageBucket: "lmap-6e088.firebasestorage.app",
+  messagingSenderId: "506520729980",
+  appId: "1:506520729980:web:4146b409a899b6e0218cf9"
+});
+
+const db = getDatabase(app);
+stateRef = ref(db, 'heroState');
+fbSet = set;
+
+onValue(stateRef, function(snap){
+  const data = snap.val();
+  if(data){
+    if(!saving){
+      Object.assign(state, data);
+      if(!state.completedToday)   state.completedToday=[];
+      if(!state.completedWeekly)  state.completedWeekly=[];
+      if(!state.pendingApproval)  state.pendingApproval=[];
+      if(!state.log)              state.log=[];
+      if(!state.achievements)     state.achievements={};
+      if(!state.ownedItems)       state.ownedItems=[];
+      if(!state.equippedItems)    state.equippedItems={};
+      if(!state.questHistory)     state.questHistory={};
+      if(!state.transfers)        state.transfers={};
+      if(state.weekTransfersUsed==null) state.weekTransfersUsed=0;
+      // Однократный сброс снаряжения и наград (старт с 24 июня)
+      if(!state.resetDone_20260624){
+        state.gold = 0;
+        state.xp = 0;
+        state.level = 1;
+        state.ownedItems = [];
+        state.equippedItems = {};
+        state.bankDeposit = 0;
+        state.bankDebt = 0;
+        state.bankAutopayActive = false;
+        state.bankUsedHardMode = false;
+        state.resetDone_20260624 = true;
+        saving = true;
+        set(stateRef, JSON.parse(JSON.stringify(state))).then(function(){ saving=false; });
+      }
+    }
+    document.getElementById('syncDot').style.background='var(--teal)';
+  }
+  render();
+});
+</script>
+</body>
+</html>
