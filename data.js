@@ -46,7 +46,7 @@ var DAILY_SCHEDULE = [
     {id:"d1_math",  name:"Математика",       desc:"Изучение темы, набрать 15 баллов",             icon:"🔢", gold:15, xp:18, color:"#8B3A8B", transferable:true},
     {id:"d1_eng",   name:"Английский язык",  desc:"Набрать 15 баллов по теме",                   icon:"🇬🇧", gold:15, xp:18, color:"#185FA5", transferable:true},
     {id:"d1_video", name:"Видео + 5 фактов", desc:"Тайны океанских глубин и Марианская впадина",  icon:"🎬", gold:10, xp:12, color:"#1A6B3F", transferable:false},
-    {id:"ep1_d1", name:"[ЭПИЧЕСКИЙ] Шаг 1: Древние шифры", desc:"Разобрать с ИИ шифр Цезаря и Атбаш, составить свой алфавитный ключ", icon:"🔑", gold:0, xp:0, color:"#5B2D8E", transferable:false, isStep:true},
+    {id:"ep1_d1", name:"[ЭПИЧЕСКИЙ] Шаг 1: Древние шифры", desc:"Разобрать с ИИ шифр Цезаря и Атбаш, составить свой алфавитный ключ", icon:"🔑", gold:0, xp:0, color:"#5B2D8E", transferable:false, isStep:true, isEpic:true},
   ], bonus:[
     {id:"b3_dig",  name:"Пиратский шифр",    desc:"Заставить ИИ отвечать на пиратском сленге в течение 10 реплик", icon:"🏴‍☠️", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b3_brain",name:"Геометрия дома",    desc:"Найти 3 предмета в форме цилиндра или куба и измерить их линейкой", icon:"📐", gold:20, xp:20, color:"#1A5A8B"},

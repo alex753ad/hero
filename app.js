@@ -388,30 +388,29 @@ function renderDailyQuests(b){
     return;
   }
 
-  // Будний день
+  // Будний день — разделяем на 3 категории: обязательные, бонусные, эпические
   var quests = sched ? (sched.isPremium ? sched.quests : QUEST_BASE.concat(sched.quests)) : QUEST_BASE.slice();
+  var epicQuests = [];
+  var regularQuests = [];
+  quests.forEach(function(q) {
+    if(q.isEpic) epicQuests.push(q);
+    else regularQuests.push(q);
+  });
+
   var transfersLeft = 3 - (state.weekTransfersUsed||0);
   var weekendOffsets = getWeekendOffsets(offset);
   var hasWeekend = weekendOffsets.some(function(wo){ return DAILY_SCHEDULE.some(function(d){return d.dayOffset===wo;}); });
-
-  // Баннер премиального проекта
-  if(sched && sched.isPremium) {
-    var banner = document.createElement('div');
-    banner.style.cssText='background:linear-gradient(135deg,#2D0A5E,#1A0A3E);border:1px solid #7B3FBF;border-radius:12px;padding:12px 14px;margin-bottom:12px;text-align:center';
-    banner.innerHTML='<div style="font-size:20px;margin-bottom:4px">'+sched.projectName+'</div>'
-      +'<div style="font-size:10px;color:#C8A0E8;letter-spacing:1px;text-transform:uppercase">Премиальный проект · 300 монет за финал</div>';
-    dl.appendChild(banner);
-  }
 
   if(!sched && offset < 0) {
     var daysLeft = Math.abs(offset);
     var startInfo = document.createElement('div');
     startInfo.style.cssText='text-align:center;padding:20px 0;font-size:13px;color:var(--text2)';
-    startInfo.innerHTML='🗓️ Расписание начнётся <b style="color:var(--gold)">22 июня</b><br><span style="font-size:11px;color:var(--text3)">До старта: '+daysLeft+' '+(daysLeft===1?'день':daysLeft<5?'дня':'дней')+'</span>';
+    startInfo.innerHTML='🗓️ Расписание начнётся <b style="color:var(--gold)">24 июня</b><br><span style="font-size:11px;color:var(--text3)">До старта: '+daysLeft+' '+(daysLeft===1?'день':daysLeft<5?'дня':'дней')+'</span>';
     dl.appendChild(startInfo);
   }
 
-  quests.forEach(function(q){
+  // === ОБЯЗАТЕЛЬНЫЕ КВЕСТЫ ===
+  regularQuests.forEach(function(q){
     var done = state.completedToday.indexOf(q.id)>=0;
     var pend = state.pendingApproval.some(function(p){return p.id===q.id;});
     var isTransferred = !!(state.transfers && state.transfers[q.id]);
@@ -473,15 +472,9 @@ function renderDailyQuests(b){
     dl.appendChild(d);
   });
 
-  // Бонусные квесты
+  // === БОНУСНЫЕ КВЕСТЫ ===
   var sched2 = getTodaySchedule();
   var bonusQuests = sched2 ? (sched2.bonus || []) : [];
-  // В выходные бонусы тоже показываем
-  if(!sched2 && weekend) {
-    var offB = getTodayOffset();
-    var schedB = DAILY_SCHEDULE.find(function(d){ return d.dayOffset === offB; });
-    bonusQuests = schedB ? (schedB.bonus || []) : [];
-  }
   if(bonusQuests.length) {
     var bonusTitle = document.createElement('div');
     bonusTitle.style.cssText='font-size:10px;font-weight:700;color:#C8A0E8;letter-spacing:1.5px;text-transform:uppercase;margin:14px 0 8px;padding-left:2px;display:flex;align-items:center;gap:6px';
@@ -495,8 +488,54 @@ function renderDailyQuests(b){
       d.style.borderLeftColor = done?'var(--teal)':pend?'var(--warn)':q.color;
       d.style.borderLeftWidth='3px';
       d.style.background='linear-gradient(90deg,rgba(91,45,142,0.15),transparent)';
-      d.innerHTML = questCardHTML(q,done,pend,false,1); // бонус без множителя
+      d.innerHTML = questCardHTML(q,done,pend,false,1);
       if(!done&&!pend) d.onclick=function(){requestQuest(q,false);};
+      dl.appendChild(d);
+    });
+  }
+
+  // === ЭПИЧЕСКИЙ ПРОЕКТ ===
+  if(epicQuests.length) {
+    var epicTitle = document.createElement('div');
+    epicTitle.style.cssText='font-size:11px;font-weight:700;color:#FFD700;letter-spacing:1.5px;text-transform:uppercase;margin:18px 0 10px;padding-left:2px;display:flex;align-items:center;gap:6px;text-shadow:0 0 8px rgba(255,215,0,0.3)';
+    epicTitle.innerHTML='<span style="font-size:16px">⚡</span> Эпический проект';
+    dl.appendChild(epicTitle);
+    epicQuests.forEach(function(q){
+      var done = state.completedToday.indexOf(q.id)>=0;
+      var pend = state.pendingApproval.some(function(p){return p.id===q.id;});
+      var d = document.createElement('div');
+      d.className='quest-card'+(done?' done':'')+(pend?' pending':'');
+      // Золотая-красная рамка для эпических
+      d.style.background='linear-gradient(135deg,rgba(255,215,0,0.12),rgba(220,100,80,0.08))';
+      d.style.border='2px solid rgba(255,215,0,0.5)';
+      d.style.borderRadius='12px';
+      d.style.boxShadow='0 0 16px rgba(255,215,0,0.15)';
+      d.style.borderLeftWidth='0';
+      d.innerHTML = questCardHTML(q,done,pend,false,1);
+      
+      // Иконка эпического проекта
+      var epicBadge = document.createElement('div');
+      epicBadge.style.cssText='position:absolute;top:-10px;right:12px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;font-weight:700;padding:2px 8px;border-radius:8px;font-size:10px;text-transform:uppercase;letter-spacing:0.5px';
+      epicBadge.textContent='ЭПИК';
+      d.style.position='relative';
+      d.appendChild(epicBadge);
+
+      var isLocked = false;
+      if(q.isProjectFinale && q.requiresSteps) {
+        isLocked = !q.requiresSteps.every(function(stepId){
+          return state.completedToday.indexOf(stepId)>=0 || hasEverCompleted(stepId);
+        });
+      }
+
+      if(!done&&!pend&&!isLocked) d.onclick=function(){ completeStep(q); };
+      if(isLocked) {
+        d.style.opacity='0.6';
+        var lockInfo = document.createElement('div');
+        lockInfo.style.cssText='font-size:9px;color:var(--warn);padding:2px 8px 0 38px;margin-top:4px';
+        var doneCount = q.requiresSteps.filter(function(s){return state.completedToday.indexOf(s)>=0||hasEverCompleted(s);}).length;
+        lockInfo.textContent='🔒 Выполни все шаги ('+doneCount+'/'+q.requiresSteps.length+')';
+        d.appendChild(lockInfo);
+      }
       dl.appendChild(d);
     });
   }
