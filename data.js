@@ -40,51 +40,58 @@ var DAILY_SCHEDULE = [
   // Бонусы: Ср,Чт,Пт — свои; Сб — бонусы оригинального Пн; Вс — бонусы оригинального Вт
   // ══════════════════════════════════════════════════
 
-  // Ср 24 июня: обязательные с оригинального Пн + бонусы оригинальной Ср
+  // Ср 24 июня: обязательные с оригинального Пн + бонусы оригинальной Ср + ЭПИЧЕСКИЙ ПРОЕКТ 1 шаг 1
   { dayOffset:0, label:"Ср, 24 июня", quests:[
     {id:"d1_read",  name:"Чтение 30 мин",   desc:"Знание — главное оружие героя",                icon:"📚", gold:12, xp:15, color:"#185FA5", transferable:true},
     {id:"d1_math",  name:"Математика",       desc:"Изучение темы, набрать 15 баллов",             icon:"🔢", gold:15, xp:18, color:"#8B3A8B", transferable:true},
     {id:"d1_eng",   name:"Английский язык",  desc:"Набрать 15 баллов по теме",                   icon:"🇬🇧", gold:15, xp:18, color:"#185FA5", transferable:true},
     {id:"d1_video", name:"Видео + 5 фактов", desc:"Тайны океанских глубин и Марианская впадина",  icon:"🎬", gold:10, xp:12, color:"#1A6B3F", transferable:false},
+    {id:"ep1_d1", name:"[ЭПИЧЕСКИЙ] Шаг 1: Древние шифры", desc:"Разобрать с ИИ шифр Цезаря и Атбаш, составить свой алфавитный ключ", icon:"🔑", gold:0, xp:0, color:"#5B2D8E", transferable:false, isStep:true},
   ], bonus:[
     {id:"b3_dig",  name:"Пиратский шифр",    desc:"Заставить ИИ отвечать на пиратском сленге в течение 10 реплик", icon:"🏴‍☠️", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b3_brain",name:"Геометрия дома",    desc:"Найти 3 предмета в форме цилиндра или куба и измерить их линейкой", icon:"📐", gold:20, xp:20, color:"#1A5A8B"},
     {id:"b3_life", name:"Турбо-кровать",     desc:"Заправить кровать по-отельному на скорость — засечь время на секундомере", icon:"⏱️", gold:20, xp:20, color:"#8B4513"},
   ]},
 
-  // Чт 25 июня: обязательные с оригинального Вт + бонусы оригинального Чт
+  // Чт 25 июня: обязательные с оригинального Вт + бонусы оригинального Чт + ЭПИЧЕСКИЙ ПРОЕКТ 1 шаг 2
   { dayOffset:1, label:"Чт, 25 июня", quests:[
     {id:"d2_read",  name:"Чтение 30 мин",   desc:"Знание — главное оружие героя",                icon:"📚", gold:12, xp:15, color:"#185FA5", transferable:true},
     {id:"d2_ai",    name:"Работа с ИИ",      desc:"Практика с искусственным интеллектом",         icon:"🤖", gold:12, xp:15, color:"#4A3B8C", transferable:true},
     {id:"d2_cs",    name:"Информатика",       desc:"Набрать 15 баллов в заданиях",                icon:"💻", gold:15, xp:18, color:"#8B3A8B", transferable:true},
     {id:"d2_video", name:"Видео + 5 фактов", desc:"Как устроен интернет?",                       icon:"🎬", gold:10, xp:12, color:"#1A6B3F", transferable:false},
+    {id:"ep1_d2", name:"[ЭПИЧЕСКИЙ] Шаг 2: Зашифрованная загадка", desc:"Написать ИИ-промпт для генерации зашифрованного текста-загадки и попробовать разгадать", icon:"🧩", gold:0, xp:0, color:"#5B2D8E", transferable:false, isStep:true},
   ], bonus:[
     {id:"b4_dig",  name:"Аватарка профиля",    desc:"Сгенерировать в ИИ крутой футуристичный аватар для себя или секретного агента", icon:"🎨", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b4_brain",name:"Инфографика на коленке", desc:"Нарисовать схему или линию времени по теме видео", icon:"📊", gold:20, xp:20, color:"#1A5A8B"},
     {id:"b4_life", name:"Новые слова",         desc:"Выписать из книги 3 незнакомых слова, узнать значение и использовать в разговоре", icon:"📖", gold:20, xp:20, color:"#185FA5"},
   ]},
 
-  // Пт 26 июня: обязательные с оригинальной Ср + бонусы оригинальной Пт
+  // Пт 26 июня: обязательные с оригинальной Ср + бонусы оригинальной Пт + ЭПИЧЕСКИЙ ПРОЕКТ 1 шаг 3
   { dayOffset:2, label:"Пт, 26 июня", quests:[
     {id:"d3_read",  name:"Чтение 30 мин",   desc:"Знание — главное оружие героя",                icon:"📚", gold:12, xp:15, color:"#185FA5", transferable:true},
     {id:"d3_math",  name:"Математика",       desc:"Набрать 15 баллов",                           icon:"🔢", gold:15, xp:18, color:"#8B3A8B", transferable:true},
     {id:"d3_bio",   name:"Биология",         desc:"Набрать 15 баллов",                           icon:"🧬", gold:15, xp:18, color:"#1A8A6F", transferable:true},
     {id:"d3_video", name:"Видео + 5 фактов", desc:"Жизнь под микроскопом",                      icon:"🎬", gold:10, xp:12, color:"#1A6B3F", transferable:false},
+    {id:"ep1_d3", name:"[ЭПИЧЕСКИЙ] Шаг 3: Бумажный шифратор", desc:"Сделать многоуровневый шифратор из двух вращающихся картонных дисков с буквами и смещением", icon:"⚙️", gold:0, xp:0, color:"#5B2D8E", transferable:false, isStep:true},
   ], bonus:[
     {id:"b5_dig",  name:"Нейро-сказочник",   desc:"Попросить ИИ сочинить рассказ, где главный герой — сам ребёнок, а сюжет связан с его любимой игрой", icon:"📝", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b5_brain",name:"Магический квадрат", desc:"Нарисовать квадрат 3х3 с цифрами, где сумма по всем линиям одинакова", icon:"🔢", gold:20, xp:20, color:"#1A5A8B"},
     {id:"b5_life", name:"Актёрское чтение",  desc:"Прочитать страницу книги вслух с максимальным выражением — как злодей из мультфильма", icon:"🎭", gold:20, xp:20, color:"#8B4513"},
   ]},
 
-  // Сб 27 июня: бонусы оригинального Пн (перенос)
-  { dayOffset:3, label:"Сб, 27 июня", quests:[], bonus:[
+  // Сб 27 июня: бонусы оригинального Пн + ЭПИЧЕСКИЙ ПРОЕКТ 1 шаг 4
+  { dayOffset:3, label:"Сб, 27 июня", quests:[
+    {id:"ep1_d4", name:"[ЭПИЧЕСКИЙ] Шаг 4: Секретное письмо", desc:"Написать зашифрованное письмо родителям — инструкцию где спрятан «клад» — своим методом", icon:"📜", gold:0, xp:0, color:"#5B2D8E", transferable:false, isStep:true},
+  ], bonus:[
     {id:"b1_dig",  name:"Ловушка для ИИ",        desc:"Написать промпт-загадку и заставить нейросеть ошибиться или запутаться в логике", icon:"🤖", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b1_brain",name:"Ого, я не знал!",        desc:"Рассказать самый крутой факт из видео родителям так, чтобы они искренне удивились", icon:"🧠", gold:20, xp:20, color:"#1A5A8B"},
     {id:"b1_life", name:"Мишленовский завтрак",   desc:"Сделать красивую ресторанную подачу обычного завтрака и сфотографировать", icon:"🍳", gold:20, xp:20, color:"#8B4513"},
   ]},
 
-  // Вс 28 июня: бонусы оригинального Вт (перенос)
-  { dayOffset:4, label:"Вс, 28 июня", quests:[], bonus:[
+  // Вс 28 июня: бонусы оригинального Вт + ЭПИЧЕСКИЙ ПРОЕКТ 1 финал
+  { dayOffset:4, label:"Вс, 28 июня", quests:[
+    {id:"ep1_fin", name:"[ЭПИЧЕСКИЙ] ФИНАЛ: Взломай код!", desc:"Вручить родителям шифратор и письмо. Родители взламывают, ребёнок — технический консультант. Награда выдаётся за весь проект целиком.", icon:"🏆", gold:300, xp:120, color:"#B8860B", transferable:false, isProjectFinale:true, requiresSteps:["ep1_d1","ep1_d2","ep1_d3","ep1_d4"]},
+  ], bonus:[
     {id:"b2_dig",  name:"Ментальный рекорд",  desc:"Побить свой вчерашний результат в NeuroNation хотя бы на 1 пункт", icon:"🧠", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b2_brain",name:"Разрушитель мифов",  desc:"Найти в видео факт, который опровергает мифы из кино", icon:"🔍", gold:20, xp:20, color:"#1A5A8B"},
     {id:"b2_life", name:"English Home",       desc:"Назвать 10 предметов в своей комнате строго на английском без подсказок", icon:"🏠", gold:20, xp:20, color:"#185FA5"},
@@ -100,6 +107,7 @@ var DAILY_SCHEDULE = [
     {id:"d6_math",  name:"Математика",       desc:"Набрать 15 баллов",                           icon:"🔢", gold:15, xp:18, color:"#8B3A8B", transferable:true},
     {id:"d6_eng",   name:"Английский язык",  desc:"Набрать 15 баллов",                           icon:"🇬🇧", gold:15, xp:18, color:"#185FA5", transferable:true},
     {id:"d6_video", name:"Видео + 5 фактов", desc:"Большое путешествие по Солнечной системе",   icon:"🎬", gold:10, xp:12, color:"#1A6B3F", transferable:false},
+    {id:"ep2_d1", name:"[ЭПИЧЕСКИЙ] Шаг 1: Профессии через 20 лет", desc:"Выбрать сферу (космос, медицина, фермерство или транспорт) и обсудить с ИИ 3 новые профессии", icon:"🔭", gold:0, xp:0, color:"#1A5A8B", transferable:false, isStep:true},
   ], bonus:[
     {id:"b8_dig",  name:"Промпт-инженер",    desc:"Добиться от ИИ крутой картинки с первой попытки, максимально подробно описав детали", icon:"🎨", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b8_brain",name:"Космический масштаб",desc:"Сравнить размеры Земли и планеты из видео используя круглые предметы дома", icon:"🌍", gold:20, xp:20, color:"#1A5A8B"},
@@ -110,6 +118,7 @@ var DAILY_SCHEDULE = [
     {id:"d7_ai",    name:"Работа с ИИ",      desc:"Практика с искусственным интеллектом",         icon:"🤖", gold:12, xp:15, color:"#4A3B8C", transferable:true},
     {id:"d7_cs",    name:"Информатика",       desc:"Набрать 15 баллов",                          icon:"💻", gold:15, xp:18, color:"#8B3A8B", transferable:true},
     {id:"d7_video", name:"Видео + 5 фактов", desc:"Роботы и андроиды: от механики до ИИ",       icon:"🎬", gold:10, xp:12, color:"#1A6B3F", transferable:false},
+    {id:"ep2_d2", name:"[ЭПИЧЕСКИЙ] Шаг 2: Обязанности специалиста", desc:"Подробно прописать обязанности выбранной профессии и какие школьные предметы для этого нужны", icon:"📋", gold:0, xp:0, color:"#1A5A8B", transferable:false, isStep:true},
   ], bonus:[
     {id:"b9_dig",  name:"Интервью с прошлым", desc:"Попросить ИИ прикинуться рыцарем или фараоном и задать 3 острых вопроса", icon:"👑", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b9_brain",name:"Логика на спичках",  desc:"Выложить из спичек неверное равенство и переложить одну деталь чтобы оно стало верным", icon:"🔥", gold:20, xp:20, color:"#1A5A8B"},
@@ -120,6 +129,7 @@ var DAILY_SCHEDULE = [
     {id:"d8_math",  name:"Математика",       desc:"Набрать 15 баллов",                           icon:"🔢", gold:15, xp:18, color:"#8B3A8B", transferable:true},
     {id:"d8_eng",   name:"Английский язык",  desc:"Набрать 15 баллов",                           icon:"🇬🇧", gold:15, xp:18, color:"#185FA5", transferable:true},
     {id:"d8_video", name:"Видео + 5 фактов", desc:"Загадки динозавров",                         icon:"🎬", gold:10, xp:12, color:"#1A6B3F", transferable:false},
+    {id:"ep2_d3", name:"[ЭПИЧЕСКИЙ] Шаг 3: Рабочее место будущего", desc:"Сгенерировать в ИИ изображение рабочего места и униформы специалиста будущего", icon:"🎨", gold:0, xp:0, color:"#1A5A8B", transferable:false, isStep:true},
   ], bonus:[
     {id:"b10_dig",  name:"Код-взломщик",    desc:"Написать ИИ промпт чтобы он общался как домашний кот — продержать диалог 10 реплик", icon:"🐱", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b10_brain",name:"Домашняя лаборатория", desc:"Проверить, тонет ли сырое яйцо в пресной и солёной воде", icon:"🧪", gold:20, xp:20, color:"#1A5A8B"},
@@ -130,6 +140,7 @@ var DAILY_SCHEDULE = [
     {id:"d9_cs",    name:"Информатика",       desc:"Набрать 15 баллов",                          icon:"💻", gold:15, xp:18, color:"#8B3A8B", transferable:true},
     {id:"d9_bio",   name:"Биология",          desc:"Набрать 15 баллов",                         icon:"🧬", gold:15, xp:18, color:"#1A8A6F", transferable:true},
     {id:"d9_video", name:"Видео + 5 фактов", desc:"Чудеса маскировки в живой природе",          icon:"🎬", gold:10, xp:12, color:"#1A6B3F", transferable:false},
+    {id:"ep2_d4", name:"[ЭПИЧЕСКИЙ] Шаг 4: Резюме специалиста", desc:"Сверстать «Резюме специалиста будущего» на листе А4 — с фото, навыками и опытом работы на Луне", icon:"📄", gold:0, xp:0, color:"#1A5A8B", transferable:false, isStep:true},
   ], bonus:[
     {id:"b11_dig",  name:"Быстрее калькулятора", desc:"Изучить математический лайфхак (умножение на 9 на пальцах) и показать родителям", icon:"🤙", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b11_brain",name:"Шифровальщик",     desc:"Зашифровать тайное послание цифрами, где каждая цифра — номер буквы в алфавите", icon:"🔐", gold:20, xp:20, color:"#1A5A8B"},
@@ -142,6 +153,7 @@ var DAILY_SCHEDULE = [
     {id:"d10_hist", name:"История",          desc:"Набрать 15 баллов",                           icon:"🏛️", gold:15, xp:18, color:"#8B4513", transferable:true},
     {id:"d10_geo",  name:"География",        desc:"Набрать 15 баллов",                           icon:"🌍", gold:15, xp:18, color:"#1A5A8B", transferable:true},
     {id:"d10_video",name:"Видео + 5 фактов", desc:"Семь чудес Древнего мира",                   icon:"🎬", gold:10, xp:12, color:"#1A6B3F", transferable:false},
+    {id:"ep2_fin", name:"[ЭПИЧЕСКИЙ] ФИНАЛ: Защита проекта!", desc:"Защитить проект перед родителями — доказать почему профессия будет высоко цениться и сколько за неё платят. Награда выдаётся за весь проект целиком.", icon:"🏆", gold:300, xp:120, color:"#B8860B", transferable:false, isProjectFinale:true, requiresSteps:["ep2_d1","ep2_d2","ep2_d3","ep2_d4"]},
   ], bonus:[
     {id:"b12_dig",  name:"ИИ-Режиссёр",     desc:"Попросить ИИ сгенерировать покадровое описание для комикса из 4 сцен про роботов", icon:"🎬", gold:20, xp:20, color:"#5B2D8E"},
     {id:"b12_brain",name:"Аналоговый топ",   desc:"Найти на карте мира 5 самых крупных островов и выписать их названия", icon:"🗺️", gold:20, xp:20, color:"#1A5A8B"},
@@ -164,39 +176,6 @@ var DAILY_SCHEDULE = [
   // Проект 2: Профессии будущего (Ср 16 июля — Вс 20 июля)
   // ══════════════════════════════════════════════════
 
-  // ПРОЕКТ 1 — Цифровая крепость
-  { dayOffset:13, label:"Ср, 9 июля",  isPremium:true, projectName:"🏰 Цифровая крепость", quests:[
-    {id:"p1_d1", name:"Шаг 1: Древние шифры", desc:"Разобрать с ИИ шифр Цезаря и Атбаш, составить свой алфавитный ключ", icon:"🔑", gold:0, xp:0, color:"#5B2D8E", transferable:false, isStep:true},
-  ], bonus:[]},
-  { dayOffset:14, label:"Чт, 10 июля", isPremium:true, projectName:"🏰 Цифровая крепость", quests:[
-    {id:"p1_d2", name:"Шаг 2: Зашифрованная загадка", desc:"Написать ИИ-промпт для генерации зашифрованного текста-загадки и попробовать разгадать", icon:"🧩", gold:0, xp:0, color:"#5B2D8E", transferable:false, isStep:true},
-  ], bonus:[]},
-  { dayOffset:15, label:"Пт, 11 июля", isPremium:true, projectName:"🏰 Цифровая крепость", quests:[
-    {id:"p1_d3", name:"Шаг 3: Бумажный шифратор", desc:"Сделать многоуровневый шифратор из двух вращающихся картонных дисков с буквами и смещением", icon:"⚙️", gold:0, xp:0, color:"#5B2D8E", transferable:false, isStep:true},
-  ], bonus:[]},
-  { dayOffset:16, label:"Сб, 12 июля", isPremium:true, projectName:"🏰 Цифровая крепость", quests:[
-    {id:"p1_d4", name:"Шаг 4: Секретное письмо", desc:"Написать зашифрованное письмо родителям — инструкцию где спрятан «клад» — своим методом", icon:"📜", gold:0, xp:0, color:"#5B2D8E", transferable:false, isStep:true},
-  ], bonus:[]},
-  { dayOffset:17, label:"Вс, 13 июля", isPremium:true, projectName:"🏰 Цифровая крепость", quests:[
-    {id:"p1_fin", name:"ФИНАЛ: Взломай код!", desc:"Вручить родителям шифратор и письмо. Родители взламывают, ребёнок — технический консультант. Награда выдаётся за весь проект целиком.", icon:"🏆", gold:300, xp:120, color:"#B8860B", transferable:false, isProjectFinale:true, requiresSteps:["p1_d1","p1_d2","p1_d3","p1_d4"]},
-  ], bonus:[]},
-
-  // ПРОЕКТ 2 — Профессии будущего
-  { dayOffset:18, label:"Ср, 16 июля", isPremium:true, projectName:"🚀 Профессии будущего", quests:[
-    {id:"p2_d1", name:"Шаг 1: Профессии через 20 лет", desc:"Выбрать сферу (космос, медицина, фермерство или транспорт) и обсудить с ИИ 3 новые профессии", icon:"🔭", gold:0, xp:0, color:"#1A5A8B", transferable:false, isStep:true},
-  ], bonus:[]},
-  { dayOffset:19, label:"Чт, 17 июля", isPremium:true, projectName:"🚀 Профессии будущего", quests:[
-    {id:"p2_d2", name:"Шаг 2: Обязанности специалиста", desc:"Подробно прописать обязанности выбранной профессии и какие школьные предметы для этого нужны", icon:"📋", gold:0, xp:0, color:"#1A5A8B", transferable:false, isStep:true},
-  ], bonus:[]},
-  { dayOffset:20, label:"Пт, 18 июля", isPremium:true, projectName:"🚀 Профессии будущего", quests:[
-    {id:"p2_d3", name:"Шаг 3: Рабочее место будущего", desc:"Сгенерировать в ИИ изображение рабочего места и униформы специалиста будущего", icon:"🎨", gold:0, xp:0, color:"#1A5A8B", transferable:false, isStep:true},
-  ], bonus:[]},
-  { dayOffset:21, label:"Сб, 19 июля", isPremium:true, projectName:"🚀 Профессии будущего", quests:[
-    {id:"p2_d4", name:"Шаг 4: Резюме специалиста", desc:"Сверстать «Резюме специалиста будущего» на листе А4 — с фото, навыками и опытом работы на Луне", icon:"📄", gold:0, xp:0, color:"#1A5A8B", transferable:false, isStep:true},
-  ], bonus:[]},
-  { dayOffset:22, label:"Вс, 20 июля", isPremium:true, projectName:"🚀 Профессии будущего", quests:[
-    {id:"p2_fin", name:"ФИНАЛ: Защита проекта!", desc:"Защитить проект перед родителями — доказать почему профессия будет высоко цениться и сколько за неё платят. Награда выдаётся за весь проект целиком.", icon:"🏆", gold:300, xp:120, color:"#B8860B", transferable:false, isProjectFinale:true, requiresSteps:["p2_d1","p2_d2","p2_d3","p2_d4"]},
-  ], bonus:[]},
 ];
 
 // Вспомогательная функция: получить дневное расписание по дате
